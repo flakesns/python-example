@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import MySQLdb
+import MySQLdb.cursors
 import csv, codecs, cStringIO
 
 #Thanks https://gist.github.com/hvtuananh/8834749 for fix the UnicodeWriter class
@@ -41,7 +42,7 @@ writer = UnicodeWriter(csvfile)
 header = ["Col 1", "Col 2", "Col 3"]
 writer.writerow(header);
 
-db = MySQLdb.connect("localhost","myusername","mypassword","mydatabase")
+db = MySQLdb.connect("localhost","myusername","mypassword","mydatabase", cursorclass=MySQLdb.cursors.DictCursor)
 cursor = db.cursor()
 
 sql = "SELECT col1, col2, col3 FROM lib_asset WHERE project_id = %d" % (13)
@@ -51,6 +52,7 @@ try:
   results = cursor.fetchall()
   for row in results:
     writer.writerow(row)
+    #print "col1=%d,col2=%s,col3=%s" % (row['col1'], row['col2'], row['col3'])
  
 except:
   print "Error: unable to fetch data"
