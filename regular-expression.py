@@ -5,3 +5,9 @@ if searchObj:
     print "Result : ", searchObj.group()
 else:
     print "Nothing found!!"
+    
+    
+#Extract number from string
+string = "test 123 test test"
+mynumber = int(re.search(r'\d+', string).group())
+print mynumber
